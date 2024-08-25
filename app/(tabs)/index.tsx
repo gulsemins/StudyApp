@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   Animated,
   Easing,
+  Image,
+  Dimensions,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
@@ -16,7 +18,11 @@ import { router } from "expo-router";
 export default function Tab() {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const searchWidth = useRef(new Animated.Value(0)).current;
+  const windowWidth = Dimensions.get("window").width;
 
+  // Calculate the desired width as a percentage of the window width
+  // TODO: telefonu çevirince search bar widthi ekranın %40 oluyor(çevirince boş kalan kısım daha büyük veya küçük olabilir)
+  const searchBarWidth = windowWidth * 0.4;
   const toggleSearch = () => {
     if (isSearchActive) {
       Animated.timing(searchWidth, {
@@ -30,7 +36,7 @@ export default function Tab() {
     } else {
       setIsSearchActive(true);
       Animated.timing(searchWidth, {
-        toValue: 200, // Expand search bar to full width
+        toValue: searchBarWidth, // Expand search bar to full width
         duration: 300,
         easing: Easing.ease,
         useNativeDriver: false,
@@ -68,6 +74,10 @@ export default function Tab() {
               color="black"
               onPress={() => router.push("./tests")}
             />
+            <Image
+              source={require("@/assets/images/racoon.png")}
+              style={{ width: 35, height: 35 }}
+            />
           </View>
         </View>
         {/* Rest of your content */}
@@ -95,6 +105,7 @@ const styles = StyleSheet.create({
   iconsContainer: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 10,
   },
   icon: {
     marginLeft: 10,
