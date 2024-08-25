@@ -26,6 +26,10 @@ export default function SetCard(props: Props) {
           <Text style={styles.setTitle}>{props.subject.name}</Text>
           <Text style={styles.setDesc}>{props.subject.desc}</Text>
         </View>
+        <View style={styles.footer}>
+          <Text style={styles.label1}>1 Flashcard Sets</Text>
+          <Text style={styles.label2}>3 Materials</Text>
+        </View>
       </LinearGradient>
     </View>
   );
@@ -58,5 +62,20 @@ const styles = StyleSheet.create({
   setDesc: {
     color: "white",
     textAlign: "center",
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 10,
+  },
+  label1: {
+    backgroundColor: "#fad4d5",
+    borderRadius: 5,
+    padding: 5,
+  },
+  label2: {
+    backgroundColor: "#fad4d5",
+    borderRadius: 5,
+    padding: 5,
   },
 });
