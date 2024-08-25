@@ -11,16 +11,31 @@ import {
   Easing,
   Image,
   Dimensions,
+  FlatList,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
-
-export default function Tab() {
+import SetCard from "@/components/SetCard";
+export interface SetType {
+  name: string;
+  desc: string;
+}
+export default function Home() {
+  const [subjectSets, setSubjectSets] = useState<SetType[]>([]);
   const [isSearchActive, setIsSearchActive] = useState(false);
   const searchWidth = useRef(new Animated.Value(0)).current;
   const windowWidth = Dimensions.get("window").width;
 
-  // Calculate the desired width as a percentage of the window width
+  const sets = [
+    {
+      name: "Mathematics",
+      desc: "Explore the world of numbers, equations, and geometric shapes. This subject covers topics from algebra to calculus.",
+    },
+    {
+      name: "Physics",
+      desc: "Understand the fundamental principles of the universe, including mechanics, electromagnetism, and thermodynamics.",
+    },
+  ];
   // TODO: telefonu çevirince search bar widthi ekranın %40 oluyor(çevirince boş kalan kısım daha büyük veya küçük olabilir)
   const searchBarWidth = windowWidth * 0.4;
   const toggleSearch = () => {
@@ -43,12 +58,16 @@ export default function Tab() {
       }).start();
     }
   };
-
+  const renderSets = ({ item }: { item: SetType }) => (
+    <View style={styles.renderCard}>
+      <SetCard subject={item} />
+    </View>
+  );
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>My Sets</Text>
+          <Text style={styles.headerTitle}>Your Sets</Text>
           <View style={styles.iconsContainer}>
             {isSearchActive && (
               <Animated.View style={[styles.searchBar, { width: searchWidth }]}>
@@ -80,7 +99,9 @@ export default function Tab() {
             />
           </View>
         </View>
-        {/* Rest of your content */}
+        <View style={styles.cards}>
+          <FlatList data={sets} renderItem={renderSets} />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -124,4 +145,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: "#000",
   },
+  cards: {},
+  renderCard: {},
+  cardHeader: {},
+  cardTitle: {},
+  cardDesc: {},
 });
