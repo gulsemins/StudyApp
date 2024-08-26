@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: "bold",
+    color: "gray",
   },
   iconsContainer: {
     flexDirection: "row",

@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     padding: 2,
     fontSize: 12,
     overflow: "hidden",
+    color: "#393b3d",
   },
   label2: {
     backgroundColor: "#fff9f0",
@@ -81,5 +82,6 @@ const styles = StyleSheet.create({
     padding: 2,
     fontSize: 12,
     overflow: "hidden",
+    color: "#393b3d",
   },
 });
