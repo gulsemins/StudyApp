@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   footer: {
-    marginVertical: 10,
+    marginVertical: 5,
     color: "#7fccf2",
   },
 });

@@ -68,41 +68,6 @@ export default function Home() {
     <ScrollView nestedScrollEnabled={true}>
       <SafeAreaView style={{ flex: 1, height: "100%" }}>
         <View style={styles.container}>
-          {/* <View style={styles.header}>
-            <Text style={styles.headerTitle}>Your Sets</Text>
-            <View style={styles.iconsContainer}>
-              {isSearchActive && (
-                <Animated.View
-                  style={[styles.searchBar, { width: searchWidth }]}
-                >
-                  <TextInput
-                    style={styles.searchInput}
-                    placeholder="Search"
-                    placeholderTextColor="#888"
-                    autoFocus={true}
-                  />
-                </Animated.View>
-              )}
-              <TouchableOpacity onPress={toggleSearch}>
-                <Ionicons
-                  name="search-outline"
-                  size={24}
-                  color="black"
-                  style={styles.icon}
-                />
-              </TouchableOpacity>
-              <Ionicons
-                name="notifications-outline"
-                size={24}
-                color="black"
-                onPress={() => router.push("./tests")}
-              />
-              <Image
-                source={require("@/assets/images/racoon.png")}
-                style={{ width: 35, height: 35 }}
-              />
-            </View>
-          </View> */}
           <View style={styles.streakCard}>
             <StreakCard />
           </View>
@@ -120,6 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     height: "100%",
+    backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
@@ -156,7 +122,6 @@ const styles = StyleSheet.create({
   },
   streakCard: {
     flex: 1,
-    height: 200,
   },
   cards: {
     flex: 1,
