@@ -44,11 +44,11 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 120,
+    height: 100,
   },
   gradientContent: {
     flex: 1,
-    padding: 20,
+    padding: 10,
   },
   cardInfo: {
     alignItems: "center",
@@ -66,16 +66,20 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginVertical: 10,
+    marginTop: 10,
   },
   label1: {
     backgroundColor: "#fad4d5",
     borderRadius: 5,
-    padding: 5,
+    padding: 2,
+    fontSize: 12,
+    overflow: "hidden",
   },
   label2: {
     backgroundColor: "#fad4d5",
     borderRadius: 5,
-    padding: 5,
+    padding: 2,
+    fontSize: 12,
+    overflow: "hidden",
   },
 });

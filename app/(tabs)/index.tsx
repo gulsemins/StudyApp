@@ -16,6 +16,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import SetCard from "@/components/SetCard";
+import StreakCard from "@/components/StreakCard";
 export interface SetType {
   name: string;
   desc: string;
@@ -29,11 +30,11 @@ export default function Home() {
   const sets = [
     {
       name: "Mathematics",
-      desc: "Explore the world of numbers, equations, and geometric shapes. This subject covers topics from algebra to calculus.",
+      desc: "Explore the world of numbers, equations, and geometric shapes.",
     },
     {
       name: "Physics",
-      desc: "Understand the fundamental principles of the universe, including mechanics, electromagnetism, and thermodynamics.",
+      desc: "Understand the fundamental principles of the universe, including mechanics.",
     },
   ];
   // TODO: telefonu çevirince search bar widthi ekranın %40 oluyor(çevirince boş kalan kısım daha büyük veya küçük olabilir)
@@ -64,59 +65,67 @@ export default function Home() {
     </View>
   );
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Your Sets</Text>
-          <View style={styles.iconsContainer}>
-            {isSearchActive && (
-              <Animated.View style={[styles.searchBar, { width: searchWidth }]}>
-                <TextInput
-                  style={styles.searchInput}
-                  placeholder="Search"
-                  placeholderTextColor="#888"
-                  autoFocus={true}
+    <ScrollView nestedScrollEnabled={true}>
+      <SafeAreaView style={{ flex: 1, height: "100%" }}>
+        <View style={styles.container}>
+          {/* <View style={styles.header}>
+            <Text style={styles.headerTitle}>Your Sets</Text>
+            <View style={styles.iconsContainer}>
+              {isSearchActive && (
+                <Animated.View
+                  style={[styles.searchBar, { width: searchWidth }]}
+                >
+                  <TextInput
+                    style={styles.searchInput}
+                    placeholder="Search"
+                    placeholderTextColor="#888"
+                    autoFocus={true}
+                  />
+                </Animated.View>
+              )}
+              <TouchableOpacity onPress={toggleSearch}>
+                <Ionicons
+                  name="search-outline"
+                  size={24}
+                  color="black"
+                  style={styles.icon}
                 />
-              </Animated.View>
-            )}
-            <TouchableOpacity onPress={toggleSearch}>
+              </TouchableOpacity>
               <Ionicons
-                name="search-outline"
+                name="notifications-outline"
                 size={24}
                 color="black"
-                style={styles.icon}
+                onPress={() => router.push("./tests")}
               />
-            </TouchableOpacity>
-            <Ionicons
-              name="notifications-outline"
-              size={24}
-              color="black"
-              onPress={() => router.push("./tests")}
-            />
-            <Image
-              source={require("@/assets/images/racoon.png")}
-              style={{ width: 35, height: 35 }}
-            />
+              <Image
+                source={require("@/assets/images/racoon.png")}
+                style={{ width: 35, height: 35 }}
+              />
+            </View>
+          </View> */}
+          <View style={styles.streakCard}>
+            <StreakCard />
+          </View>
+          <View style={styles.cards}>
+            <FlatList data={sets} renderItem={renderSets} />
           </View>
         </View>
-        <View style={styles.cards}>
-          <FlatList data={sets} renderItem={renderSets} />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     padding: 20,
+    height: "100%",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 50,
+    marginTop: 20,
+
     alignItems: "center",
   },
   headerTitle: {
@@ -145,9 +154,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: "#000",
   },
-  cards: {},
+  streakCard: {
+    flex: 1,
+    height: 200,
+  },
+  cards: {
+    flex: 1,
+  },
   renderCard: {},
-  cardHeader: {},
-  cardTitle: {},
-  cardDesc: {},
 });
