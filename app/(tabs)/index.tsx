@@ -17,6 +17,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import SetCard from "@/components/SetCard";
 import StreakCard from "@/components/StreakCard";
+import DailyObjects from "@/components/DailyObjects";
 export interface SetType {
   name: string;
   desc: string;
@@ -79,6 +80,9 @@ export default function Home() {
             style={{ flexGrow: 1 }} // Allow FlatList to expand within ScrollView
           />
         </View>
+        <View>
+          <DailyObjects />
+        </View>
       </SafeAreaView>
     </ScrollView>
   );
@@ -87,7 +91,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
     height: "100%",
     backgroundColor: "#fff",
   },

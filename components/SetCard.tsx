@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   label2: {
-    backgroundColor: "#fad4d5",
+    backgroundColor: "#fff9f0",
     borderRadius: 5,
     padding: 2,
     fontSize: 12,
