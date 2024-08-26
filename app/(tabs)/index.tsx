@@ -65,15 +65,19 @@ export default function Home() {
     </View>
   );
   return (
-    <ScrollView nestedScrollEnabled={true}>
-      <SafeAreaView style={{ flex: 1, height: "100%" }}>
-        <View style={styles.container}>
-          <View style={styles.streakCard}>
-            <StreakCard />
-          </View>
-          <View style={styles.cards}>
-            <FlatList data={sets} renderItem={renderSets} />
-          </View>
+    <ScrollView nestedScrollEnabled={true} style={styles.container}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.streakCard}>
+          <StreakCard />
+        </View>
+        <View style={styles.cards}>
+          <FlatList
+            data={sets}
+            renderItem={renderSets}
+            nestedScrollEnabled={true}
+            scrollEnabled={false} // Disable scrolling on FlatList
+            style={{ flexGrow: 1 }} // Allow FlatList to expand within ScrollView
+          />
         </View>
       </SafeAreaView>
     </ScrollView>
