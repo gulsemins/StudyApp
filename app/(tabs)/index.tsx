@@ -19,6 +19,7 @@ import SetCard from "@/components/SetCard";
 import StreakCard from "@/components/StreakCard";
 import DailyObjects from "@/components/DailyObjects";
 export interface SetType {
+  idSet: string;
   name: string;
   desc: string;
 }
@@ -30,10 +31,12 @@ export default function Home() {
 
   const sets = [
     {
+      idSet: "1",
       name: "Mathematics",
       desc: "Explore the world of numbers, equations, and geometric shapes.",
     },
     {
+      idSet: "2",
       name: "Physics",
       desc: "Understand the fundamental principles of the universe, including mechanics.",
     },
@@ -61,9 +64,17 @@ export default function Home() {
     }
   };
   const renderSets = ({ item }: { item: SetType }) => (
-    <View style={styles.renderCard}>
+    <TouchableOpacity
+      style={styles.renderCard}
+      onPress={() => {
+        router.push({
+          pathname: `/setDetails/[id]`, // Navigate using the idMeal
+          params: { id: item.idSet },
+        });
+      }}
+    >
       <SetCard subject={item} />
-    </View>
+    </TouchableOpacity>
   );
   return (
     <ScrollView nestedScrollEnabled={true} style={styles.container}>
