@@ -1,3 +1,4 @@
+import { Foundation } from "@expo/vector-icons";
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -32,8 +33,16 @@ const ProgressCard = ({ detail }: { detail: DetailType }) => {
         style={styles.cardContainer}
       >
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Progress of your Study Set</Text>
-          <Text style={styles.cardTitle}>{detail.name}</Text>
+          <View style={styles.header}>
+            <Text style={styles.h1}>Progress of your Study Set</Text>
+          </View>
+          <View style={styles.body}>
+            <View style={styles.subject}>
+              <Foundation name="book" size={24} color="brown" />
+              <Text style={styles.cardTitle}>{detail.name}</Text>
+            </View>
+            <Progress.Bar progress={0.3} width={null} color="#fe8b8a" />
+          </View>
 
           {isProgressCardVisible && (
             <View style={styles.progressContainer}>
@@ -85,12 +94,11 @@ const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#fff",
   },
   card: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 20,
+    padding: 12,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -124,12 +132,27 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: "100%",
-    backgroundColor: "#FF0000",
+    backgroundColor: "#fe8b8a",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  h1: {
+    fontSize: 20,
+    fontWeight: "500",
+  },
+  title: {
+    fontSize: 20,
+  },
+  body: {
+    flexDirection: "column",
+    gap: 10,
   },
   subject: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    gap: 7,
   },
   progressText: {
     fontSize: 14,
@@ -154,7 +177,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF6347",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10,
   },
   circleProgressText: {
     fontSize: 18,

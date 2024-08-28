@@ -34,16 +34,7 @@ export default function TabLayout() {
           tabBarLabel: "",
         }}
       />
-      <Tabs.Screen
-        name="tests"
-        options={{
-          title: "Tests",
-          tabBarIcon: ({ color }) => (
-            <MaterialIcons name="quiz" size={28} color={color} />
-          ),
-          tabBarLabel: "",
-        }}
-      />
+
       <Tabs.Screen
         name="profile"
         options={{
