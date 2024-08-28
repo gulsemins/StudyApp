@@ -1,6 +1,14 @@
+import ProgressCard from "@/components/[id]/ProgressCard";
 import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 
 export interface DetailType {
   idSet: string;
@@ -42,6 +50,8 @@ const DetailsPage = () => {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>{details.name}</Text>
       <Text style={styles.description}>{details.desc}</Text>
+
+      <ProgressCard detail={details} />
     </ScrollView>
   );
 };

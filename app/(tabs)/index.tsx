@@ -15,9 +15,9 @@ import {
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
-import SetCard from "@/components/SetCard";
-import StreakCard from "@/components/StreakCard";
-import DailyObjects from "@/components/DailyObjects";
+import SetCard from "@/components/index/SetCard";
+import StreakCard from "@/components/index/StreakCard";
+import DailyObjects from "@/components/index/DailyObjects";
 export interface SetType {
   idSet: string;
   name: string;
