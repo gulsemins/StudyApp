@@ -1,0 +1,164 @@
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+  SafeAreaView,
+  Image,
+  Pressable,
+} from "react-native";
+import * as Progress from "react-native-progress";
+
+interface DetailType {
+  idSet: string;
+  name: string;
+  desc: string;
+}
+
+const ProgressCard = ({ detail }: { detail: DetailType }) => {
+  const [isProgressCardVisible, setProgressCardVisible] = useState(false);
+  const completed = 28;
+  const total = 35;
+  const progress = completed / total;
+  const score = 85;
+  return (
+    <View style={styles.container}>
+      <Pressable
+        onPress={() => {
+          setProgressCardVisible(!isProgressCardVisible);
+        }}
+        style={styles.cardContainer}
+      >
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Progress of your Study Set</Text>
+          <Text style={styles.cardTitle}>{detail.name}</Text>
+
+          {isProgressCardVisible && (
+            <View style={styles.progressContainer}>
+              {/* Flashcard Set Progress */}
+              <View style={styles.progressItem}>
+                <Text style={styles.progressLabel}>Flashcard Sets</Text>
+                <View style={styles.progressBar}>
+                  <View style={[styles.progressFill, { width: "0%" }]} />
+                  {/* Example progress */}
+                </View>
+                <Text style={styles.progressText}>0 / 3</Text>
+              </View>
+
+              {/* Match Games Progress */}
+              <View style={styles.progressItem}>
+                <Text style={styles.progressLabel}>Match Games</Text>
+                <View style={styles.progressBar}>
+                  <View style={[styles.progressFill, { width: "40%" }]} />
+                  {/* Example progress */}
+                </View>
+                <Text style={styles.progressText}>2 / 5</Text>
+              </View>
+            </View>
+          )}
+        </View>
+      </Pressable>
+      <View style={styles.mastered}>
+        <Progress.Circle
+          size={80}
+          progress={score / 100}
+          showsText={true}
+          formatText={() => `${score}`}
+          color="#fe8b8a"
+          thickness={5}
+          unfilledColor="#f2f2f2"
+          textStyle={styles.scoreText}
+        />
+      </View>
+    </View>
+  );
+};
+
+export default ProgressCard;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+  },
+  cardContainer: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  progressContainer: {
+    marginTop: 10,
+  },
+  progressItem: {
+    marginVertical: 10,
+  },
+  progressLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  progressBar: {
+    height: 10,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 5,
+    overflow: "hidden",
+  },
+  progressFill: {
+    height: "100%",
+    backgroundColor: "#FF0000",
+  },
+  subject: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  progressText: {
+    fontSize: 14,
+    color: "#333",
+    marginTop: 5,
+  },
+  mastered: {
+    alignItems: "center",
+    backgroundColor: "red",
+    justifyContent: "center",
+    borderRadius: 20,
+    padding: 10,
+  },
+  scoreText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  circleProgressBar: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "#FF6347",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  circleProgressText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
+  },
+});
