@@ -38,10 +38,10 @@ const ProgressCard = ({ detail }: { detail: DetailType }) => {
           </View>
           <View style={styles.body}>
             <View style={styles.subject}>
-              <Foundation name="book" size={24} color="brown" />
+              <Foundation name="book" size={24} color="black" />
               <Text style={styles.cardTitle}>{detail.name}</Text>
             </View>
-            <Progress.Bar progress={0.3} width={null} color="#fe8b8a" />
+            <Progress.Bar progress={0.3} width={null} color="#eb5a61" />
           </View>
 
           {isProgressCardVisible && (
@@ -69,18 +69,6 @@ const ProgressCard = ({ detail }: { detail: DetailType }) => {
           )}
         </View>
       </Pressable>
-      <View style={styles.mastered}>
-        <Progress.Circle
-          size={80}
-          progress={score / 100}
-          showsText={true}
-          formatText={() => `${score}`}
-          color="#fe8b8a"
-          thickness={5}
-          unfilledColor="#f2f2f2"
-          textStyle={styles.scoreText}
-        />
-      </View>
     </View>
   );
 };
@@ -93,7 +81,6 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
-    padding: 20,
   },
   card: {
     backgroundColor: "#fff",
@@ -132,7 +119,7 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: "100%",
-    backgroundColor: "#fe8b8a",
+    backgroundColor: "#eb5a61",
   },
   header: {
     flexDirection: "row",
@@ -159,28 +146,27 @@ const styles = StyleSheet.create({
     color: "#333",
     marginTop: 5,
   },
-  mastered: {
-    alignItems: "center",
-    backgroundColor: "red",
-    justifyContent: "center",
-    borderRadius: 20,
-    padding: 10,
-  },
-  scoreText: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  circleProgressBar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "#FF6347",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  circleProgressText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "white",
-  },
+  // mastered: {
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   borderRadius: 20,
+  //   padding: 10,
+  // },
+  // scoreText: {
+  //   fontSize: 16,
+  //   fontWeight: "bold",
+  // },
+  // circleProgressBar: {
+  //   width: 80,
+  //   height: 80,
+  //   borderRadius: 40,
+  //   backgroundColor: "#FF6347",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // circleProgressText: {
+  //   fontSize: 18,
+  //   fontWeight: "bold",
+  //   color: "white",
+  // },
 });

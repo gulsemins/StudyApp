@@ -1,6 +1,8 @@
 import ProgressCard from "@/components/[id]/ProgressCard";
 import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
+import * as Progress from "react-native-progress";
+
 import {
   View,
   Text,
@@ -50,22 +52,35 @@ const DetailsPage = () => {
       </View>
     );
   }
-
+  const completed = 28;
+  const total = 35;
+  const progress = completed / total;
+  const score = 85;
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Your Study Set Home</Text>
       <View style={styles.setInfo}>
         <Image
           style={styles.image}
-          source={require("@/assets/images/calculator.png")}
+          source={require("@/assets/images/math-book.png")}
           resizeMode="cover"
         />
         <View style={styles.info}>
           <Text style={styles.infoTitle}>Untitled Study Set</Text>
-          <TextInput
-            placeholder="No description"
-            style={styles.infoDescription}
-          ></TextInput>
+          <Text style={styles.infoDescription}>No description</Text>
+        </View>
+
+        <View style={styles.mastered}>
+          <Progress.Circle
+            size={75}
+            progress={score / 100}
+            showsText={true}
+            formatText={() => `${score}`}
+            color="#eb5a61"
+            thickness={5}
+            unfilledColor="#f2f2f2"
+            textStyle={styles.scoreText}
+          />
         </View>
       </View>
       <Pressable
@@ -115,6 +130,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
+    gap: 10,
   },
   info: {},
   infoTitle: {
@@ -126,10 +142,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1, // Adds a line under the text
     borderBottomColor: "#ccc", // Color of the line
     paddingVertical: 5,
+    color: "#999",
   },
   image: {
-    width: 90,
-    height: 90,
+    width: 60,
+    height: 60,
   },
   title: {
     fontSize: 24,
@@ -175,5 +192,29 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#333",
     marginTop: 5,
+  },
+
+  mastered: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    padding: 10,
+  },
+  scoreText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  circleProgressBar: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  circleProgressText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
   },
 });
