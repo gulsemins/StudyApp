@@ -123,6 +123,13 @@ export default function RootLayout() {
           },
         }}
       />
+      <Stack.Screen
+        name="(modals)/set/[id]"
+        options={{
+          presentation: "modal",
+          title: "",
+        }}
+      />
     </Stack>
   );
 }

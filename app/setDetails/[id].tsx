@@ -58,7 +58,6 @@ const DetailsPage = () => {
   const score = 85;
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Your Study Set Home</Text>
       <View style={styles.setInfo}>
         <Image
           style={styles.image}
@@ -91,29 +90,6 @@ const DetailsPage = () => {
       >
         <ProgressCard detail={details} />
       </Pressable>
-      {isProgressCardVisible && (
-        <View style={styles.progressContainer}>
-          {/* Flashcard Set Progress */}
-          <View style={styles.progressItem}>
-            <Text style={styles.progressLabel}>Flashcard Sets</Text>
-            <View style={styles.progressBar}>
-              <View style={[styles.progressFill, { width: "0%" }]} />
-              {/* Example progress */}
-            </View>
-            <Text style={styles.progressText}>0 / 3</Text>
-          </View>
-
-          {/* Match Games Progress */}
-          <View style={styles.progressItem}>
-            <Text style={styles.progressLabel}>Match Games</Text>
-            <View style={styles.progressBar}>
-              <View style={[styles.progressFill, { width: "40%" }]} />
-              {/* Example progress */}
-            </View>
-            <Text style={styles.progressText}>2 / 5</Text>
-          </View>
-        </View>
-      )}
     </ScrollView>
   );
 };
@@ -148,16 +124,10 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
   pressable: {
     flex: 1,
     paddingVertical: 10,
-    paddingHorizontal: 15,
-
+    paddingHorizontal: 10,
     borderRadius: 10,
     alignItems: "center",
     marginBottom: 20,

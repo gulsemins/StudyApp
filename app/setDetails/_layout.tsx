@@ -44,9 +44,9 @@ export default function TabLayout() {
         />
 
         <Tabs.Screen
-          name="flashcards"
+          name="search"
           options={{
-            title: "flashcards",
+            title: "flashcard",
             tabBarIcon: ({ color }) => (
               <AntDesign name="wechat" size={28} color={color} />
             ),
