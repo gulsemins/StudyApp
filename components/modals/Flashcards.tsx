@@ -7,22 +7,17 @@ import { useWindowDimensions } from "react-native";
 interface FlashcardProps {
   card: { front: string; back: string };
   showBack: boolean;
-  onFlip?: () => void;
+  onFlip: () => void;
 }
 export default function Flashcards(props: FlashcardProps) {
   const { width } = useWindowDimensions();
 
   const cardWidth = width * 0.9;
-  const [showBack, setShowBack] = useState(false);
-  const [flipped, setFlipped] = useState(false);
-  const handleFlip = () => {
-    setFlipped(!flipped);
-  };
 
   return (
-    <TouchableOpacity onPress={handleFlip} style={styles.button}>
+    <TouchableOpacity onPress={props.onFlip} style={styles.button}>
       <Card style={[styles.card, { width: cardWidth }]}>
-        {flipped ? (
+        {props.showBack ? (
           <Text style={styles.back}>{props.card.back}</Text>
         ) : (
           <Text style={styles.front}>{props.card.front}</Text>

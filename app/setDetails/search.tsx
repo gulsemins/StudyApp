@@ -18,9 +18,9 @@ export default function Tab() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const set = [
     {
-      cards: 4,
+      cards: 2,
       id: "1",
-      title: " Learn Cebir",
+      title: "Cebir",
       flashcards: [
         { front: "What is the square root of 16?", back: "4" },
         {
@@ -30,27 +30,33 @@ export default function Tab() {
       ],
     },
     {
-      cards: 4,
+      cards: 3,
       id: "2",
-      title: "Learn dif",
+      title: "dif",
       flashcards: [
         { front: "What is the square root of 16?", back: "4" },
         {
-          front: "What is the formula for the area of a triangle?",
-          back: "(1/2) * base * height",
+          front: "deneme 3",
+          back: "sonuç 4",
+        },
+        {
+          front: "deneme 5",
+          back: "sonuç 5",
         },
       ],
     },
     {
       cards: 4,
       id: "3",
-      title: " Learn Cebir",
+      title: "İngilizce",
       flashcards: [
         { front: "What is the square root of 16?", back: "4" },
         {
           front: "What is the formula for the area of a triangle?",
           back: "(1/2) * base * height",
         },
+        { front: "What is the square root of 16?", back: "4" },
+        { front: "What is the square root of 16?", back: "4" },
       ],
     },
   ];
