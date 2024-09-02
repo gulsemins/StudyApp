@@ -14,11 +14,13 @@ import {
   Image,
   Pressable,
 } from "react-native";
+import axios from "axios";
 
 export interface DetailType {
-  idSet: string;
-  name: string;
-  desc: string;
+  id: string;
+  title: string;
+  description: string;
+  subject: string;
 }
 const DetailsPage = () => {
   const { id } = useLocalSearchParams();
@@ -26,25 +28,26 @@ const DetailsPage = () => {
   console.log(id);
 
   const [isProgressCardVisible, setProgressCardVisible] = useState(false);
-  const sets = [
-    {
-      idSet: "1",
-      name: "Mathematics",
-      desc: "Explore the world of numbers, equations, and geometric shapes.",
-    },
-    {
-      idSet: "2",
-      name: "Physics",
-      desc: "Understand the fundamental principles of the universe, including mechanics.",
-    },
-  ];
-  useEffect(() => {
-    // Simulate fetching data based on the id
-    const foundDetails = sets.find((set) => set.idSet === id);
-    if (foundDetails) {
-      setDetails(foundDetails);
+
+  const fetchServices = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.EXPO_PUBLIC_API_URL}/api/v1/course/${id}`
+      );
+      console.log(response.data.data);
+
+      setDetails(response.data.data);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
     }
-  }, [id]);
+  };
+  useEffect(() => {
+    if (id) {
+      // Make sure id is available before fetching
+      fetchServices();
+    }
+  }, [id]); // Dependency on id for fetching when it changes
+
   if (!details) {
     return (
       <View style={styles.container}>

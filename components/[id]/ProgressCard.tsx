@@ -10,13 +10,8 @@ import {
   Image,
   Pressable,
 } from "react-native";
+import { DetailType } from "@/app/(app)/setDetails/[id]";
 import * as Progress from "react-native-progress";
-
-interface DetailType {
-  idSet: string;
-  name: string;
-  desc: string;
-}
 
 const ProgressCard = ({ detail }: { detail: DetailType }) => {
   const [isProgressCardVisible, setProgressCardVisible] = useState(false);
@@ -39,7 +34,7 @@ const ProgressCard = ({ detail }: { detail: DetailType }) => {
           <View style={styles.body}>
             <View style={styles.subject}>
               <Foundation name="book" size={24} color="black" />
-              <Text style={styles.cardTitle}>{detail.name}</Text>
+              <Text style={styles.cardTitle}>{detail.title}</Text>
             </View>
             <Progress.Bar progress={0.3} width={null} color="#eb5a61" />
           </View>
