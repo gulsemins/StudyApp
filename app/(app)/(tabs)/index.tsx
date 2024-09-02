@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -18,29 +18,35 @@ import { router } from "expo-router";
 import SetCard from "@/components/index/SetCard";
 import StreakCard from "@/components/index/StreakCard";
 import DailyObjects from "@/components/index/DailyObjects";
+import axios from "axios";
 export interface SetType {
-  idSet: string;
-  name: string;
-  desc: string;
+  id: string;
+  title: string;
+  description: string;
+  subject: string;
 }
 export default function Home() {
   const [subjectSets, setSubjectSets] = useState<SetType[]>([]);
   const [isSearchActive, setIsSearchActive] = useState(false);
   const searchWidth = useRef(new Animated.Value(0)).current;
   const windowWidth = Dimensions.get("window").width;
+  const fetchServices = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.EXPO_PUBLIC_API_URL}/api/v1/course/multiple`
+      );
+      console.log(response.data.data);
 
-  const sets = [
-    {
-      idSet: "1",
-      name: "Mathematics",
-      desc: "Explore the world of numbers, equations, and geometric shapes.",
-    },
-    {
-      idSet: "2",
-      name: "Physics",
-      desc: "Understand the fundamental principles of the universe, including mechanics.",
-    },
-  ];
+      setSubjectSets(response.data.data.data);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    }
+  };
+  useEffect(() => {
+    fetchServices();
+  }, []);
+  console.log(JSON.stringify(subjectSets, null, 4));
+
   // TODO: telefonu çevirince search bar widthi ekranın %40 oluyor(çevirince boş kalan kısım daha büyük veya küçük olabilir)
   const searchBarWidth = windowWidth * 0.4;
   const toggleSearch = () => {
@@ -69,7 +75,7 @@ export default function Home() {
       onPress={() => {
         router.push({
           pathname: `/setDetails/[id]`, // Navigate using the idMeal
-          params: { id: item.idSet },
+          params: { id: item.id },
         });
       }}
     >
@@ -84,7 +90,7 @@ export default function Home() {
         </View>
         <View style={styles.cards}>
           <FlatList
-            data={sets}
+            data={subjectSets}
             renderItem={renderSets}
             nestedScrollEnabled={true}
             scrollEnabled={false} // Disable scrolling on FlatList

@@ -23,8 +23,8 @@ export default function SetCard(props: Props) {
         style={styles.gradientContent}
       >
         <View style={styles.cardInfo}>
-          <Text style={styles.setTitle}>{props.subject.name}</Text>
-          <Text style={styles.setDesc}>{props.subject.desc}</Text>
+          <Text style={styles.setTitle}>{props.subject.title}</Text>
+          <Text style={styles.setDesc}>{props.subject.description}</Text>
         </View>
         <View style={styles.footer}>
           <Text style={styles.label1}>1 Flashcard Sets</Text>
