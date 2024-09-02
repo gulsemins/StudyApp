@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 
 import Flashcards from "@/components/modals/Flashcards";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,6 +13,7 @@ export interface SetType {
     back: string;
   }[];
 }
+
 const Page = () => {
   const { id } = useLocalSearchParams();
   const [cards, setCards] = useState<SetType>();
@@ -73,6 +74,33 @@ const Page = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showBack, setShowBack] = useState(false);
 
+  const pastelColors = [
+    "#d1cfff",
+    "#e7f6f3",
+    "#ffdfe0",
+    "#ffeedc",
+    "#dcf7dc", // Ek renk
+    "#f5f5bc", // Ek renk
+    "#dcdcf5", // Ek renk
+    "#c1e3f5",
+    "#d1cfff",
+    "#ecd9cb", //
+    "#fecbca",
+    "#dfe5b5",
+  ];
+  const [cardColors, setCardColors] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Kart renkleri için bir dizi oluşturun
+    setCardColors(
+      Array(set.flashcards.length)
+        .fill("")
+        .map(
+          () => pastelColors[Math.floor(Math.random() * pastelColors.length)]
+        )
+    );
+  }, []);
+
   const handleNext = () => {
     const nextIndex = (currentIndex + 1) % set.flashcards.length;
     setCurrentIndex(nextIndex);
@@ -92,12 +120,22 @@ const Page = () => {
   const currentCard = set.flashcards[currentIndex];
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          title: set.title,
+        }}
+      />
       {/* <Text style={styles.header}> {set?.title}</Text> */}
       <Text style={styles.cardNumber}>
         {currentIndex + 1} / {set.flashcards.length}
       </Text>
       <View style={styles.card}>
-        <Flashcards card={currentCard} showBack={showBack} onFlip={onFlip} />
+        <Flashcards
+          card={currentCard}
+          showBack={showBack}
+          onFlip={onFlip}
+          cardColor={cardColors[currentIndex]}
+        />
 
         <View style={styles.next}>
           <Pressable onPress={handlePrevious}>

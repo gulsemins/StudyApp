@@ -8,6 +8,7 @@ interface FlashcardProps {
   card: { front: string; back: string };
   showBack: boolean;
   onFlip: () => void;
+  cardColor: string;
 }
 export default function Flashcards(props: FlashcardProps) {
   const { width } = useWindowDimensions();
@@ -16,7 +17,12 @@ export default function Flashcards(props: FlashcardProps) {
 
   return (
     <TouchableOpacity onPress={props.onFlip} style={styles.button}>
-      <Card style={[styles.card, { width: cardWidth }]}>
+      <Card
+        style={[
+          styles.card,
+          { width: cardWidth, backgroundColor: props.cardColor },
+        ]}
+      >
         {props.showBack ? (
           <Text style={styles.back}>{props.card.back}</Text>
         ) : (
