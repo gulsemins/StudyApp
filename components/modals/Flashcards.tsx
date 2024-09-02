@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Card } from "react-native-paper";
-import { SetType } from "@/app/setDetails/search";
+import { SetType } from "@/app/(app)/setDetails/search";
 import { useWindowDimensions } from "react-native";
 
 interface FlashcardProps {

@@ -1,4 +1,4 @@
-import { SetType } from "@/app/(tabs)";
+import { SetType } from "@/app/(app)/(tabs)";
 import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
