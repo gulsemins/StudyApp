@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 
@@ -20,28 +20,34 @@ const Page = () => {
     {
       cards: 2,
       id: "1",
-      title: "Cebir",
+      title: "Fizik",
       flashcards: [
-        { front: "What is the square root of 16?", back: "4" },
         {
-          front: "What is the formula for the area of a triangle?",
-          back: "(1/2) * base * height",
+          front: "Newton'un ikinci hareket yasası nedir?",
+          back: "Newton'un ikinci hareket yasası, bir cismin üzerindeki net kuvvetin, cismin kütlesi ile ivmesinin çarpımına eşit olduğunu belirtir.",
+        },
+        {
+          front: "Kütle ile ağırlık arasındaki fark nedir?",
+          back: "Kütle, bir cismin sahip olduğu madde miktarıdır ve kilogram (kg) ile ölçülür. Ağırlık ise bir cismin kütlesine etki eden yerçekimi kuvvetidir ve Newton (N) ile ölçülür. Ağırlık, yerçekimi ivmesine bağlı olarak değişir.",
         },
       ],
     },
     {
       cards: 3,
       id: "2",
-      title: "dif",
+      title: "Kimya ",
       flashcards: [
-        { front: "What is the square root of 16?", back: "4" },
         {
-          front: "deneme 3",
-          back: "sonuç 4",
+          front: "Atom numarası nedir?",
+          back: "Atom numarası, bir elementin çekirdeğindeki proton sayısını belirtir ve elementin kimyasal özelliklerini belirler.",
         },
         {
-          front: "deneme 5",
-          back: "sonuç 5",
+          front: "pH nedir?",
+          back: "pH, bir çözeltinin asitlik veya bazlık derecesini gösteren bir ölçüdür. pH 7 nötr, pH 7'nin altı asidik, pH 7'nin üstü baziktir.",
+        },
+        {
+          front: "Element nedir?",
+          back: "Element, aynı tür atomlardan oluşan saf bir maddedir ve kimyasal yollarla daha basit maddelere ayrıştırılamaz.",
         },
       ],
     },
@@ -50,13 +56,13 @@ const Page = () => {
       id: "3",
       title: "İngilizce",
       flashcards: [
-        { front: "What is the square root of 1?", back: "4" },
+        { front: "Innovation", back: "Yenilik" },
         {
-          front: "What is the formula for the area of a triangle?",
-          back: "(1/2) * base * height",
+          front: "Resilient",
+          back: "Dayanıklı, dirençli",
         },
-        { front: "What is the square root of 3?", back: "4" },
-        { front: "What is the square root of 4?", back: "4" },
+        { front: "Ambitious", back: "Hırslı" },
+        { front: "Curiosity", back: "Merak" },
       ],
     },
   ];
@@ -86,16 +92,27 @@ const Page = () => {
   const currentCard = set.flashcards[currentIndex];
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Learn {set?.title}</Text>
+      {/* <Text style={styles.header}> {set?.title}</Text> */}
+      <Text style={styles.cardNumber}>
+        {currentIndex + 1} / {set.flashcards.length}
+      </Text>
       <View style={styles.card}>
         <Flashcards card={currentCard} showBack={showBack} onFlip={onFlip} />
 
         <View style={styles.next}>
           <Pressable onPress={handlePrevious}>
-            <Ionicons name="chevron-back-outline" size={24} color="black" />
+            <Ionicons
+              name="chevron-back-circle-outline"
+              size={40}
+              color="#e85754"
+            />
           </Pressable>
           <Pressable onPress={handleNext}>
-            <Ionicons name="chevron-forward-outline" size={24} color="black" />
+            <Ionicons
+              name="chevron-forward-circle-outline"
+              size={40}
+              color="#e85754"
+            />
           </Pressable>
         </View>
       </View>
@@ -107,19 +124,27 @@ export default Page;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "white",
     flex: 1,
-    paddingHorizontal: 20,
     alignItems: "center",
+    justifyContent: "center",
   },
   header: {
     fontSize: 24,
     fontWeight: "bold",
   },
   card: {
-    marginTop: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cardNumber: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
   next: {
     flexDirection: "row",
     justifyContent: "center",
+    gap: 15,
+    marginBottom: 50,
   },
 });

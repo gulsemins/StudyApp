@@ -20,28 +20,34 @@ export default function Tab() {
     {
       cards: 2,
       id: "1",
-      title: "Cebir",
+      title: "Fizik",
       flashcards: [
-        { front: "What is the square root of 16?", back: "4" },
         {
-          front: "What is the formula for the area of a triangle?",
-          back: "(1/2) * base * height",
+          front: "Newton'un ikinci hareket yasası nedir?",
+          back: "Newton'un ikinci hareket yasası, bir cismin üzerindeki net kuvvetin, cismin kütlesi ile ivmesinin çarpımına eşit olduğunu belirtir.",
+        },
+        {
+          front: "Kütle ile ağırlık arasındaki fark nedir?",
+          back: "Kütle, bir cismin sahip olduğu madde miktarıdır ve kilogram (kg) ile ölçülür. Ağırlık ise bir cismin kütlesine etki eden yerçekimi kuvvetidir ve Newton (N) ile ölçülür. Ağırlık, yerçekimi ivmesine bağlı olarak değişir.",
         },
       ],
     },
     {
       cards: 3,
       id: "2",
-      title: "dif",
+      title: "Kimya ",
       flashcards: [
-        { front: "What is the square root of 16?", back: "4" },
         {
-          front: "deneme 3",
-          back: "sonuç 4",
+          front: "Atom numarası nedir?",
+          back: "Atom numarası, bir elementin çekirdeğindeki proton sayısını belirtir ve elementin kimyasal özelliklerini belirler.",
         },
         {
-          front: "deneme 5",
-          back: "sonuç 5",
+          front: "pH nedir?",
+          back: "pH, bir çözeltinin asitlik veya bazlık derecesini gösteren bir ölçüdür. pH 7 nötr, pH 7'nin altı asidik, pH 7'nin üstü baziktir.",
+        },
+        {
+          front: "Element nedir?",
+          back: "Element, aynı tür atomlardan oluşan saf bir maddedir ve kimyasal yollarla daha basit maddelere ayrıştırılamaz.",
         },
       ],
     },
@@ -50,13 +56,13 @@ export default function Tab() {
       id: "3",
       title: "İngilizce",
       flashcards: [
-        { front: "What is the square root of 16?", back: "4" },
+        { front: "Innovation", back: "Yenilik" },
         {
-          front: "What is the formula for the area of a triangle?",
-          back: "(1/2) * base * height",
+          front: "Resilient",
+          back: "Dayanıklı, dirençli",
         },
-        { front: "What is the square root of 16?", back: "4" },
-        { front: "What is the square root of 16?", back: "4" },
+        { front: "Ambitious", back: "Hırslı" },
+        { front: "Curiosity", back: "Merak" },
       ],
     },
   ];
@@ -67,9 +73,9 @@ export default function Tab() {
         <View style={{ flexDirection: "row", gap: 10 }}>
           <View style={{ flex: 1 }}>
             <Text style={styles.rowTitle}>{item.title}</Text>
-            <Text style={{ color: "darkgray" }}>{item.cards} Cards</Text>
+            <Text style={{ color: "#9c9a9a" }}>{item.cards} Cards</Text>
           </View>
-          <Ionicons name="chevron-forward-outline" size={24} color="#ccc" />
+          <Ionicons name="chevron-forward-outline" size={24} color="#e85754" />
         </View>
       </Pressable>
     </Link>
@@ -79,13 +85,11 @@ export default function Tab() {
       {/* <View style={styles.header}>
         <Text style={styles.h1}>Flashcards</Text>
       </View> */}
-      <View style={styles.cards}>
-        <FlatList
-          data={set}
-          renderItem={renderCard}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
+      <FlatList
+        data={set}
+        renderItem={renderCard}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 }
@@ -108,7 +112,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
-    borderBottomColor: "lightGrey",
+    borderBottomColor: "#d4d2d2",
   },
   rowTitle: {
     fontSize: 16,
