@@ -1,4 +1,3 @@
-import FlashcardCard from "@/components/[id]/FlashcardCard";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
 import { useState } from "react";
