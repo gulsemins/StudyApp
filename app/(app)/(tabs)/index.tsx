@@ -30,16 +30,22 @@ export default function Home() {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const searchWidth = useRef(new Animated.Value(0)).current;
   const windowWidth = Dimensions.get("window").width;
+
   const fetchServices = async () => {
     try {
       const response = await axios.get(
         `${process.env.EXPO_PUBLIC_API_URL}/api/v1/course/multiple`
       );
+
       console.log(response.data.data);
 
       setSubjectSets(response.data.data.data);
     } catch (error) {
       console.error("Error fetching projects:", error);
+      if (error.response?.status === 401) {
+        router.replace("/Login");
+        alert("Session expired, logging out...");
+      }
     }
   };
   useEffect(() => {
