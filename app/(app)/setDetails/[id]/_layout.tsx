@@ -1,19 +1,45 @@
-import { FontAwesome } from "@expo/vector-icons";
+import {
+  Entypo,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import Foundation from "@expo/vector-icons/Foundation";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 import { Stack, Tabs, useLocalSearchParams } from "expo-router";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function TabLayout() {
   // TODO: search how to reach from [id] to root e_layout file to change tha stack name
 
   const { id } = useLocalSearchParams();
+  const [courseDetails, setCourseDetails] = useState(null);
   console.log(id);
+
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.EXPO_PUBLIC_API_URL}/api/v1/course/${id}`
+        );
+        setCourseDetails(response.data.data);
+      } catch (error) {
+        console.error("Error fetching course:", error);
+      }
+    };
+
+    if (id) {
+      fetchCourse();
+    }
+  }, [id]);
+
   return (
     <>
-      <Stack.Screen />
+      <Stack.Screen
+      // options={{ title: courseDetails?.title }}
+      />
 
       <Tabs
         screenOptions={{
@@ -26,7 +52,7 @@ export default function TabLayout() {
           options={{
             title: "Home",
             tabBarIcon: ({ color }) => (
-              <AntDesign name="wechat" size={28} color={color} />
+              <FontAwesome name="home" size={24} color={color} />
             ),
           }}
         />
@@ -37,7 +63,11 @@ export default function TabLayout() {
           options={{
             title: "flashcard",
             tabBarIcon: ({ color }) => (
-              <AntDesign name="wechat" size={28} color={color} />
+              <MaterialCommunityIcons
+                name="cards-outline"
+                size={24}
+                color={color}
+              />
             ),
           }}
         />

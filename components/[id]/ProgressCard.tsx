@@ -34,7 +34,7 @@ const ProgressCard = ({ detail }: { detail: DetailType }) => {
           <View style={styles.body}>
             <View style={styles.subject}>
               <Foundation name="book" size={24} color="black" />
-              <Text style={styles.cardTitle}>{detail.title}</Text>
+              <Text style={styles.cardTitle}>{detail.title} Dosyası</Text>
             </View>
             <Progress.Bar progress={0.3} width={null} color="#eb5a61" />
           </View>

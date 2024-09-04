@@ -68,8 +68,8 @@ const DetailsPage = () => {
           resizeMode="cover"
         />
         <View style={styles.info}>
-          <Text style={styles.infoTitle}>Untitled Study Set</Text>
-          <Text style={styles.infoDescription}>No description</Text>
+          <Text style={styles.infoTitle}>{details.title}</Text>
+          <Text style={styles.infoDescription}>{details.description}</Text>
         </View>
 
         <View style={styles.mastered}>
@@ -111,7 +111,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     gap: 10,
   },
-  info: {},
+  info: {
+    flex: 1,
+  },
   infoTitle: {
     fontSize: 24,
     fontWeight: "bold",

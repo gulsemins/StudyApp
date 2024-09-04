@@ -1,23 +1,12 @@
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
-
+import { SetType } from "../../setDetails/[id]/search";
 import Flashcards from "@/components/modals/Flashcards";
 import { Ionicons } from "@expo/vector-icons";
 // import { SetType } from "../../setDetails/[id]/search";
 import axios from "axios";
 
-export interface SetType {
-  id: string;
-  title: string;
-  courseId: string;
-  cards: {
-    id: string;
-    title: string;
-    body: string;
-    cardNumber: number;
-  }[];
-}
 const Page = () => {
   const { id } = useLocalSearchParams();
   const [set, setSet] = useState<SetType | null>(null);
