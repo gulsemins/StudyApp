@@ -9,6 +9,12 @@ export interface SetType {
   id: string;
   title: string;
   courseId: string;
+  cards: {
+    id: string;
+    title: string;
+    body: string;
+    cardNumber: number;
+  }[];
 }
 export default function Tab() {
   const [cardSets, setCardSets] = useState<SetType>();
@@ -43,7 +49,7 @@ export default function Tab() {
         <View style={{ flexDirection: "row", gap: 10 }}>
           <View style={{ flex: 1 }}>
             <Text style={styles.rowTitle}>{item.title}</Text>
-            <Text style={{ color: "#9c9a9a" }}>{item.cardNumber} Cards</Text>
+            <Text style={{ color: "#9c9a9a" }}>{item.cards.length} Cards</Text>
           </View>
           <Ionicons name="chevron-forward-outline" size={24} color="#e85754" />
         </View>

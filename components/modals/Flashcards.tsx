@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Card } from "react-native-paper";
-import { SetType } from "@/app/(app)/setDetails/search";
+import { SetType } from "@/app/(app)/setDetails/[id]/search";
 import { useWindowDimensions } from "react-native";
 
 interface FlashcardProps {
-  card: { front: string; back: string };
+  card: { title: string; body: string };
   showBack: boolean;
   onFlip: () => void;
   cardColor: string;
@@ -24,9 +24,9 @@ export default function Flashcards(props: FlashcardProps) {
         ]}
       >
         {props.showBack ? (
-          <Text style={styles.back}>{props.card.back}</Text>
+          <Text style={styles.back}>{props.card.body}</Text>
         ) : (
-          <Text style={styles.front}>{props.card.front}</Text>
+          <Text style={styles.front}>{props.card.title}</Text>
         )}
       </Card>
     </TouchableOpacity>

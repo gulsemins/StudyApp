@@ -4,73 +4,45 @@ import { Stack, useLocalSearchParams } from "expo-router";
 
 import Flashcards from "@/components/modals/Flashcards";
 import { Ionicons } from "@expo/vector-icons";
+// import { SetType } from "../../setDetails/[id]/search";
+import axios from "axios";
+
 export interface SetType {
-  cards: number;
   id: string;
   title: string;
-  flashcards: {
-    front: string;
-    back: string;
+  courseId: string;
+  cards: {
+    id: string;
+    title: string;
+    body: string;
+    cardNumber: number;
   }[];
 }
-
 const Page = () => {
   const { id } = useLocalSearchParams();
-  const [cards, setCards] = useState<SetType>();
-  const sets = [
-    {
-      cards: 2,
-      id: "1",
-      title: "Fizik",
-      flashcards: [
+  const [set, setSet] = useState<SetType | null>(null);
+
+  const fetchServices = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.EXPO_PUBLIC_API_URL}/api/v1/card-set/${id}`,
         {
-          front: "Newton'un ikinci hareket yasası nedir?",
-          back: "Newton'un ikinci hareket yasası, bir cismin üzerindeki net kuvvetin, cismin kütlesi ile ivmesinin çarpımına eşit olduğunu belirtir.",
-        },
-        {
-          front: "Kütle ile ağırlık arasındaki fark nedir?",
-          back: "Kütle, bir cismin sahip olduğu madde miktarıdır ve kilogram (kg) ile ölçülür. Ağırlık ise bir cismin kütlesine etki eden yerçekimi kuvvetidir ve Newton (N) ile ölçülür. Ağırlık, yerçekimi ivmesine bağlı olarak değişir.",
-        },
-      ],
-    },
-    {
-      cards: 3,
-      id: "2",
-      title: "Kimya ",
-      flashcards: [
-        {
-          front: "Atom numarası nedir?",
-          back: "Atom numarası, bir elementin çekirdeğindeki proton sayısını belirtir ve elementin kimyasal özelliklerini belirler.",
-        },
-        {
-          front: "pH nedir?",
-          back: "pH, bir çözeltinin asitlik veya bazlık derecesini gösteren bir ölçüdür. pH 7 nötr, pH 7'nin altı asidik, pH 7'nin üstü baziktir.",
-        },
-        {
-          front: "Element nedir?",
-          back: "Element, aynı tür atomlardan oluşan saf bir maddedir ve kimyasal yollarla daha basit maddelere ayrıştırılamaz.",
-        },
-      ],
-    },
-    {
-      cards: 4,
-      id: "3",
-      title: "İngilizce",
-      flashcards: [
-        { front: "Innovation", back: "Yenilik" },
-        {
-          front: "Resilient",
-          back: "Dayanıklı, dirençli",
-        },
-        { front: "Ambitious", back: "Hırslı" },
-        { front: "Curiosity", back: "Merak" },
-      ],
-    },
-  ];
-  const set = sets.find((set) => set.id === id);
-  if (!set) {
-    return <Text>Set not found</Text>;
-  }
+          params: {
+            relations: "cards",
+          },
+        }
+      );
+      console.log(response.data.data);
+
+      setSet(response.data.data);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    }
+  };
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showBack, setShowBack] = useState(false);
 
@@ -92,23 +64,29 @@ const Page = () => {
 
   useEffect(() => {
     // Kart renkleri için bir dizi oluşturun
+    if (!set) {
+      return;
+    }
     setCardColors(
-      Array(set.flashcards.length)
+      Array(set.cards.length)
         .fill("")
         .map(
           () => pastelColors[Math.floor(Math.random() * pastelColors.length)]
         )
     );
-  }, []);
+  }, [set]);
 
+  if (!set) {
+    return <Text>Loading</Text>;
+  }
   const handleNext = () => {
-    const nextIndex = (currentIndex + 1) % set.flashcards.length;
+    const nextIndex = (currentIndex + 1) % set.cards.length;
     setCurrentIndex(nextIndex);
     setShowBack(false); // Show front page when moving forward
   };
   const handlePrevious = () => {
     const previousIndex =
-      (currentIndex - 1 + set.flashcards.length) % set.flashcards.length;
+      (currentIndex - 1 + set.cards.length) % set.cards.length;
     setCurrentIndex(previousIndex);
     setShowBack(false);
   };
@@ -117,7 +95,7 @@ const Page = () => {
     setShowBack(!showBack);
   };
 
-  const currentCard = set.flashcards[currentIndex];
+  const currentCard = set.cards[currentIndex];
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -127,7 +105,7 @@ const Page = () => {
       />
       {/* <Text style={styles.header}> {set?.title}</Text> */}
       <Text style={styles.cardNumber}>
-        {currentIndex + 1} / {set.flashcards.length}
+        {currentIndex + 1} / {set.cards.length}
       </Text>
       <View style={styles.card}>
         <Flashcards
