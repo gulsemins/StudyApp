@@ -1,29 +1,29 @@
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
-import { Link, router } from "expo-router";
+import { Link, router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
 import { RefreshControl } from "react-native-gesture-handler";
 
 export interface SetType {
-  title: string;
   id: string;
-  body: string;
-  cardNumber: number;
-  cardSetId: string;
-  cardSet: {
-    id: string;
-    title: string;
-  }[];
+  title: string;
+  courseId: string;
 }
 export default function Tab() {
   const [cardSets, setCardSets] = useState<SetType>();
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
+  const { id } = useLocalSearchParams();
+  console.log(id);
   const fetchServices = async () => {
     try {
       const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/v1/card-set/multiple`
+        `${process.env.EXPO_PUBLIC_API_URL}/api/v1/card-set/multiple`,
+        {
+          params: {
+            relations: "cards,course",
+            "filter.course.id": id,
+          },
+        }
       );
       console.log(response.data.data);
 
@@ -32,9 +32,11 @@ export default function Tab() {
       console.error("Error fetching projects:", error);
     }
   };
+
   useEffect(() => {
     fetchServices();
   }, []);
+
   const renderCard = ({ item }: { item: SetType }) => (
     <Link href={`/(modals)/set/${item.id}`} asChild>
       <Pressable style={styles.setRow} onPress={() => {}}>

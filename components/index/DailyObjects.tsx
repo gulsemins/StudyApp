@@ -14,14 +14,14 @@ export default function DailyObjects() {
         <View style={styles.body}>
           <View style={styles.objectives}>
             <View style={styles.top}>
-              <FontAwesome name="edit" size={20} color="black" />
+              <SimpleLineIcons name="graduation" size={20} color="black" />
               <Text>Edit a Document using Spark.E AI</Text>
             </View>
             <Progress.Bar progress={0.3} width={250} color="#fe8b8a" />
           </View>
           <View style={styles.objectives}>
             <View style={styles.top}>
-              <FontAwesome name="check-square-o" size={20} color="black" />
+              <SimpleLineIcons name="graduation" size={20} color="black" />
               <Text>Complete a Test</Text>
             </View>
             <Progress.Bar progress={0.3} width={250} color="#fe8b8a" />
