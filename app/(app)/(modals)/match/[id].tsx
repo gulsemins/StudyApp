@@ -2,16 +2,17 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { SetType } from "../../setDetails/[id]/search";
-import axios from "axios";
 import MemoryCards from "@/components/modals/MemoryCards";
+import axios from "axios";
 
 const MatchScreen = () => {
   const { id } = useLocalSearchParams();
   const [set, setSet] = useState<SetType | null>(null);
   const [cards, setCards] = useState<any[]>([]);
+  const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [matchedCards, setMatchedCards] = useState<string[]>([]);
-  const [correctMatches, setCorrectMatches] = useState<number>(0);
-  const [wrongMatches, setWrongMatches] = useState<number>(0);
+  const [correctMatches, setCorrectMatches] = useState<number>(0); // Track correct matches
+  const [wrongMatches, setWrongMatches] = useState<number>(0); // Track wrong matches
 
   const fetchServices = async () => {
     try {
@@ -47,25 +48,39 @@ const MatchScreen = () => {
     return <Text>Loading...</Text>;
   }
 
-  const handleCardDrop = (draggedCardId: string, droppedOnCardId: string) => {
-    const draggedCard = cards.find((card) => card.id === draggedCardId);
-    const droppedOnCard = cards.find((card) => card.id === droppedOnCardId);
+  const handleCardPress = (cardId: string) => {
+    if (matchedCards.includes(cardId) || selectedCards.includes(cardId)) {
+      return;
+    }
 
-    // Check if the dropped card is a valid match
-    if (
-      (draggedCard?.type === "title" &&
-        droppedOnCard?.type === "body" &&
-        draggedCardId.split("-")[0] === droppedOnCardId.split("-")[0]) ||
-      (draggedCard?.type === "body" &&
-        droppedOnCard?.type === "title" &&
-        draggedCardId.split("-")[0] === droppedOnCardId.split("-")[0])
-    ) {
-      // Correct match
-      setMatchedCards([...matchedCards, draggedCardId, droppedOnCardId]);
-      setCorrectMatches(correctMatches + 1);
-    } else {
-      // Incorrect match
-      setWrongMatches(wrongMatches + 1);
+    setSelectedCards([...selectedCards, cardId]);
+
+    if (selectedCards.length === 1) {
+      const firstCardId = selectedCards[0];
+      const firstCard = cards.find((card) => card.id === firstCardId);
+      const secondCard = cards.find((card) => card.id === cardId);
+
+      if (
+        (firstCard?.type === "title" &&
+          secondCard?.type === "body" &&
+          firstCardId.split("-")[0] === cardId.split("-")[0]) ||
+        (firstCard?.type === "body" &&
+          secondCard?.type === "title" &&
+          firstCardId.split("-")[0] === cardId.split("-")[0])
+      ) {
+        // Correct match
+        setMatchedCards([...matchedCards, firstCardId, cardId]);
+        setCorrectMatches(correctMatches + 1); // Increment correct matches
+        setTimeout(() => {
+          setSelectedCards([]);
+        }, 500); // Short delay before resetting selected cards
+      } else {
+        // Incorrect match
+        setWrongMatches(wrongMatches + 1); // Increment wrong matches
+        setTimeout(() => {
+          setSelectedCards([]);
+        }, 1000); // Delay to allow the user to see the mismatch
+      }
     }
   };
 
@@ -84,8 +99,9 @@ const MatchScreen = () => {
           <MemoryCards
             key={card.id}
             card={card}
+            onPress={handleCardPress}
             matchedCards={matchedCards}
-            onCardDrop={handleCardDrop}
+            selectedCards={selectedCards}
           />
         ))}
       </View>
