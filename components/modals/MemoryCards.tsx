@@ -34,8 +34,8 @@ const MemoryCards: React.FC<MemoryCardsProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    width: 100, // Adjust card width to fit 3 in a row
-    height: 150, // Adjust card height if needed
+    width: 100,
+    height: 150,
     backgroundColor: "#d7ddf5",
     justifyContent: "center",
     alignItems: "center",
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff2dd", // Light blue for selected card
   },
   cardText: {
-    fontSize: 12, // Adjust font size to fit the smaller card
+    fontSize: 12,
     fontWeight: "500",
     textAlign: "center",
     margin: 4,

@@ -11,6 +11,8 @@ const MatchScreen = () => {
   const [cards, setCards] = useState<any[]>([]);
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [matchedCards, setMatchedCards] = useState<string[]>([]);
+  const [correctMatches, setCorrectMatches] = useState<number>(0); // Track correct matches
+  const [wrongMatches, setWrongMatches] = useState<number>(0); // Track wrong matches
 
   const fetchServices = async () => {
     try {
@@ -43,7 +45,7 @@ const MatchScreen = () => {
   }, []);
 
   if (!set) {
-    return <Text>Loading</Text>;
+    return <Text>Loading...</Text>;
   }
 
   const handleCardPress = (cardId: string) => {
@@ -68,16 +70,13 @@ const MatchScreen = () => {
       ) {
         // Correct match
         setMatchedCards([...matchedCards, firstCardId, cardId]);
+        setCorrectMatches(correctMatches + 1); // Increment correct matches
         setTimeout(() => {
-          setCards(
-            cards.filter(
-              (card) => card.id !== firstCardId && card.id !== cardId
-            )
-          );
           setSelectedCards([]);
-        }, 500); // Short delay before removing matched cards
+        }, 500); // Short delay before resetting selected cards
       } else {
         // Incorrect match
+        setWrongMatches(wrongMatches + 1); // Increment wrong matches
         setTimeout(() => {
           setSelectedCards([]);
         }, 1000); // Delay to allow the user to see the mismatch
@@ -92,6 +91,9 @@ const MatchScreen = () => {
           title: set.title,
         }}
       />
+      <Text style={styles.matchCount}>
+        Correct Matches: {correctMatches} | Wrong Matches: {wrongMatches}
+      </Text>
       <View style={styles.cardsContainer}>
         {cards.map((card) => (
           <MemoryCards
@@ -116,6 +118,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "white",
     paddingVertical: 20,
+  },
+  matchCount: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginVertical: 10,
   },
   cardsContainer: {
     flexDirection: "row",
