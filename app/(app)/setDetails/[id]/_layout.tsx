@@ -18,6 +18,9 @@ export default function TabLayout() {
   const [courseDetails, setCourseDetails] = useState(null);
   console.log(id);
 
+  //TODO: CACHE kullan değişiklik olmazsa aynı datayı kullansın diye. Kendin cache yapmayı öğren bide otamatik react query  kullanarak da yapabilirsin
+  //react query server state yönetmek için kullanlıyor
+
   useEffect(() => {
     const fetchCourse = async () => {
       try {
