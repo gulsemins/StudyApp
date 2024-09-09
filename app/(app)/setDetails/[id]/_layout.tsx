@@ -37,9 +37,7 @@ export default function TabLayout() {
 
   return (
     <>
-      <Stack.Screen
-      // options={{ title: courseDetails?.title }}
-      />
+      <Stack.Screen options={{ title: courseDetails?.title }} />
 
       <Tabs
         screenOptions={{

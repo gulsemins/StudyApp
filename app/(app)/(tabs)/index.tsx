@@ -13,7 +13,6 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import SetCard from "@/components/index/SetCard";
 import StreakCard from "@/components/index/StreakCard";
