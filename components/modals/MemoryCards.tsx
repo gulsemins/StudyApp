@@ -1,34 +1,66 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Text, StyleSheet } from "react-native";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
-interface MemoryCardsProps {
+interface DraggableMemoryCardProps {
   card: any;
-  onPress: (cardId: string) => void;
+  onCardDrop: (draggedCardId: string, droppedOnCardId: string) => void;
   matchedCards: string[];
-  selectedCards: string[];
 }
 
-const MemoryCards: React.FC<MemoryCardsProps> = ({
+const DraggableMemoryCard: React.FC<DraggableMemoryCardProps> = ({
   card,
-  onPress,
+  onCardDrop,
   matchedCards,
-  selectedCards,
 }) => {
-  const isMatched = matchedCards.includes(card.id);
-  const isSelected = selectedCards.includes(card.id);
-  const isIncorrect = selectedCards.length === 2 && !isMatched && isSelected;
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
 
-  const cardStyle = [
-    styles.card,
-    isMatched ? styles.matchedCard : {},
-    isIncorrect ? styles.incorrectCard : {},
-    isSelected && !isIncorrect ? styles.selectedCard : {},
-  ];
+  const isMatched = matchedCards.includes(card.id);
+
+  const gestureHandler = useAnimatedGestureHandler({
+    onStart: (_, ctx: any) => {
+      ctx.startX = translateX.value;
+      ctx.startY = translateY.value;
+    },
+    onActive: (event, ctx) => {
+      translateX.value = ctx.startX + event.translationX;
+      translateY.value = ctx.startY + event.translationY;
+    },
+    onEnd: () => {
+      // Handle drop event, pass the card id to onCardDrop
+      translateX.value = withSpring(0); // Reset position after drop
+      translateY.value = withSpring(0);
+    },
+  });
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: translateX.value },
+        { translateY: translateY.value },
+      ],
+    };
+  });
 
   return (
-    <Pressable style={cardStyle} onPress={() => onPress(card.id)}>
-      <Text style={styles.cardText}>{card.content}</Text>
-    </Pressable>
+    <PanGestureHandler onGestureEvent={gestureHandler}>
+      <Animated.View
+        style={[
+          styles.card,
+          animatedStyle,
+          isMatched ? styles.matchedCard : {},
+        ]}
+      >
+        <Text style={styles.cardText}>{card.content}</Text>
+      </Animated.View>
+    </PanGestureHandler>
   );
 };
 
@@ -50,12 +82,6 @@ const styles = StyleSheet.create({
   matchedCard: {
     backgroundColor: "#bff0db", // Green for correct match
   },
-  incorrectCard: {
-    backgroundColor: "#fac3c6", // Red for incorrect match
-  },
-  selectedCard: {
-    backgroundColor: "#fff2dd", // Light blue for selected card
-  },
   cardText: {
     fontSize: 12,
     fontWeight: "500",
@@ -65,4 +91,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MemoryCards;
+export default DraggableMemoryCard;
