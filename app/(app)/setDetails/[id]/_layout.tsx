@@ -10,7 +10,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Stack, Tabs, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { uri } from "@/constants/api";
 export default function TabLayout() {
   // TODO: search how to reach from [id] to root e_layout file to change tha stack name
 
@@ -24,9 +24,7 @@ export default function TabLayout() {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.EXPO_PUBLIC_API_URL}/api/v1/course/${id}`
-        );
+        const response = await axios.get(`${uri}/api/v1/course/${id}`);
         setCourseDetails(response.data.data);
       } catch (error) {
         console.error("Error fetching course:", error);

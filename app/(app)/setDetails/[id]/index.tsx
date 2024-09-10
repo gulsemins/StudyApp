@@ -15,7 +15,7 @@ import {
   Pressable,
 } from "react-native";
 import axios from "axios";
-
+import { uri } from "@/constants/api";
 export interface DetailType {
   id: string;
   title: string;
@@ -31,16 +31,15 @@ const DetailsPage = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/v1/course/${id}`
-      );
+      const response = await axios.get(`${uri}/api/v1/course/${id}`);
       console.log(response.data.data);
-
+      console.log("url:" + uri);
       setDetails(response.data.data);
     } catch (error) {
       console.error("Error fetching projects:", error);
     }
   };
+
   useEffect(() => {
     if (id) {
       // Make sure id is available before fetching

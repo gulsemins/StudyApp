@@ -18,6 +18,7 @@ import SetCard from "@/components/index/SetCard";
 import StreakCard from "@/components/index/StreakCard";
 import DailyObjects from "@/components/index/DailyObjects";
 import axios from "axios";
+import { uri } from "@/constants/api";
 export interface SetType {
   id: string;
   title: string;
@@ -32,11 +33,10 @@ export default function Home() {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/v1/course/multiple`
-      );
-
-      console.log(response.data.data);
+      console.log("Fetching services...");
+      console.log("URI: " + uri);
+      const response = await axios.get(`${uri}/api/v1/course/multiple`);
+      console.log("Response Data: ", response.data.data);
 
       setSubjectSets(response.data.data.data);
     } catch (error) {

@@ -4,6 +4,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { SetType } from "../../setDetails/[id]/search";
 import MemoryCards from "@/components/modals/MemoryCards";
 import axios from "axios";
+import { uri } from "@/constants/api";
 
 const MatchScreen = () => {
   const { id } = useLocalSearchParams();
@@ -16,14 +17,11 @@ const MatchScreen = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/v1/card-set/${id}`,
-        {
-          params: {
-            relations: "cards",
-          },
-        }
-      );
+      const response = await axios.get(`${uri}/api/v1/card-set/${id}`, {
+        params: {
+          relations: "cards",
+        },
+      });
       const cardSet = response.data.data;
 
       // Generate title and body cards

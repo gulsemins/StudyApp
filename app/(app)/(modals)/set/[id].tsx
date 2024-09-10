@@ -6,6 +6,7 @@ import Flashcards from "@/components/modals/Flashcards";
 import { Ionicons } from "@expo/vector-icons";
 // import { SetType } from "../../setDetails/[id]/search";
 import axios from "axios";
+import { uri } from "@/constants/api";
 
 const Page = () => {
   const { id } = useLocalSearchParams();
@@ -13,14 +14,11 @@ const Page = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/v1/card-set/${id}`,
-        {
-          params: {
-            relations: "cards",
-          },
-        }
-      );
+      const response = await axios.get(`${uri}/api/v1/card-set/${id}`, {
+        params: {
+          relations: "cards",
+        },
+      });
       console.log(response.data.data);
 
       setSet(response.data.data);

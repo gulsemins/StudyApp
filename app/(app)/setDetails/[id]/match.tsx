@@ -4,7 +4,7 @@ import { Link, router, Stack, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
 import { RefreshControl } from "react-native-gesture-handler";
-
+import { uri } from "@/constants/api";
 export interface SetType {
   id: string;
   title: string;
@@ -22,15 +22,12 @@ export default function Match() {
   console.log(id);
   const fetchServices = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/v1/card-set/multiple`,
-        {
-          params: {
-            relations: "cards,course",
-            "filter.course.id": id,
-          },
-        }
-      );
+      const response = await axios.get(`${uri}/api/v1/card-set/multiple`, {
+        params: {
+          relations: "cards,course",
+          "filter.course.id": id,
+        },
+      });
       console.log(response.data.data);
 
       setCardSets(response.data.data.data);
