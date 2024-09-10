@@ -27,7 +27,7 @@ const MemoryCards: React.FC<MemoryCardsProps> = ({
 
   return (
     <Pressable style={cardStyle} onPress={() => onPress(card.id)}>
-      <Text style={styles.cardText}>{card.content}</Text>
+      <Text style={styles.cardText}> {card.content}</Text>
     </Pressable>
   );
 };

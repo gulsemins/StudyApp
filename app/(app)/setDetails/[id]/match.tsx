@@ -45,7 +45,7 @@ export default function Match() {
       <Pressable style={styles.setRow} onPress={() => {}}>
         <View style={{ flexDirection: "row", gap: 10 }}>
           <View style={{ flex: 1 }}>
-            <Text style={styles.rowTitle}>{item.title}</Text>
+            <Text style={styles.rowTitle}>Memory Cards: {item.title}</Text>
             <Text style={{ color: "#9c9a9a" }}></Text>
           </View>
           <Ionicons name="chevron-forward-outline" size={24} color="#e85754" />
