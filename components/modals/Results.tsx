@@ -4,11 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 
 interface ResultsProps {
   test: TestType;
-  answers: {
-    multipleChoiceAnswers: { questionId: string; answer: string }[];
-    fillInTheBlanksAnswers: { questionId: string; answer: string[] }[];
-    classicAnswers: { questionId: string; answer: string }[];
-  };
+  answers: { questionId: string; answer: string }[];
 }
 
 const Results: React.FC<ResultsProps> = ({ test, answers }) => {
@@ -18,7 +14,7 @@ const Results: React.FC<ResultsProps> = ({ test, answers }) => {
 
       {/* Multiple Choice Results */}
       {test?.multipleChoiceQuestions?.map((question, index) => {
-        const userAnswer = answers.multipleChoiceAnswers.find(
+        const userAnswer = answers.find(
           (ans) => ans.questionId === question.id
         );
         const isCorrect = userAnswer?.answer === question.correctAnswer;
@@ -41,7 +37,7 @@ const Results: React.FC<ResultsProps> = ({ test, answers }) => {
 
       {/* Fill in the Blanks Results */}
       {test?.fillInTheBlankQuestions?.map((question, index) => {
-        const userAnswer = answers.fillInTheBlanksAnswers.find(
+        const userAnswer = answers.find(
           (ans) => ans.questionId === question.id
         );
         const isCorrect =
@@ -66,7 +62,7 @@ const Results: React.FC<ResultsProps> = ({ test, answers }) => {
 
       {/* Classic Question Results */}
       {test?.classicQuestions?.map((question, index) => {
-        const userAnswer = answers.classicAnswers.find(
+        const userAnswer = answers.find(
           (ans) => ans.questionId === question.id
         );
         // Assuming that classic questions are open-ended, you may not have a single "correct answer."

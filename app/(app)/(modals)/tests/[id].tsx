@@ -58,6 +58,20 @@ const TestScreen = () => {
   useEffect(() => {
     fetchTest();
   }, [id]);
+  const goToNextQuestion = () => {
+    if (index < allQuestions.length - 1) {
+      setIndex(index + 1);
+      console.log("Next question index:", index + 1);
+    } else {
+      submitTest();
+    }
+  };
+
+  const goToPreviousQuestion = () => {
+    if (index > 0) {
+      setIndex(index - 1);
+    }
+  };
 
   const handleAnswerSubmit = (answer) => {
     const question = allQuestions[index];
@@ -71,30 +85,18 @@ const TestScreen = () => {
     try {
       const response = await axios.post(`${uri}/api/v1/tests/submit`, {
         testId: id,
+        studentId: "e1ddca4d-0e30-4f09-83dd-f5e720630c13",
         multipleChoiceAnswers: answers.filter(
           (a) => typeof a.answer === "string"
         ),
         fillInTheBlanksAnswers: answers.filter((a) => Array.isArray(a.answer)),
         classicAnswers: answers.filter((a) => typeof a.answer === "string"),
       });
+
       console.log("Submit response:", response.data);
       setShowResults(true);
     } catch (error) {
       console.error("Error submitting test:", error);
-    }
-  };
-
-  const goToNextQuestion = () => {
-    if (index < allQuestions.length - 1) {
-      setIndex(index + 1);
-    } else {
-      submitTest();
-    }
-  };
-
-  const goToPreviousQuestion = () => {
-    if (index > 0) {
-      setIndex(index - 1);
     }
   };
 
@@ -134,7 +136,8 @@ const TestScreen = () => {
         return null;
     }
   };
-
+  console.log("test:", test);
+  console.log("answers", answers);
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {showResults ? (
