@@ -28,6 +28,7 @@ export interface TestType {
     difficulty: string;
   }[];
   fillInTheBlankQuestions: {
+    correctAnswer(correctAnswer: any): unknown;
     id: string;
     questionNumber: number;
     questionText: string;
@@ -35,7 +36,7 @@ export interface TestType {
     blanks: string[];
     options: string[];
     difficulty: string;
-  };
+  }[];
 }
 export default function Tests() {
   const [test, setTest] = useState<TestType>();

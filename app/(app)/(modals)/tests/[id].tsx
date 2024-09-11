@@ -2,25 +2,25 @@ import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import axios from "axios";
-import MultipleChoiceQuestion from "@/components/modals/MultipleChoice";
+
 import { uri } from "@/constants/api";
-import { TestType } from "../../setDetails/[id]/tests";
 import Results from "@/components/modals/Results";
+import FillInTheBlank from "@/components/modals/FillInTheBlank";
+import MultipleChoiceQuestion from "@/components/modals/MultipleChoice";
+import ClassicQuestion from "@/components/modals/ClassicQuestions";
 
 interface Answer {
-  question: number;
-  selectedAnswer: string;
+  questionId: string;
+  answer: string | string[];
 }
 
 const TestScreen = () => {
   const { id } = useLocalSearchParams();
-  const [test, setTest] = useState<TestType>();
+  const [test, setTest] = useState(null);
   const [index, setIndex] = useState(0); // Current question index
-  const [points, setPoints] = useState(0); // Points tracker
-  const [answers, setAnswers] = useState<Answer[]>([]); // Define the type for answers
-  const [showResults, setShowResults] = useState(false); // Track when to show results
-
-  const totalQuestions = test?.multipleChoiceQuestions.length || 0;
+  const [answers, setAnswers] = useState<Answer[]>([]); // Store all answers
+  const [showResults, setShowResults] = useState(false); // Show results or not
+  const [allQuestions, setAllQuestions] = useState([]); // Store all questions
 
   const fetchTest = async () => {
     try {
@@ -30,7 +30,26 @@ const TestScreen = () => {
             "multipleChoiceQuestions,classicQuestions,fillInTheBlanksQuestions",
         },
       });
-      setTest(response.data);
+      const fetchedTest = response.data;
+
+      // Combine all questions and add a 'type' field to each
+      const combinedQuestions = [
+        ...fetchedTest.multipleChoiceQuestions.map((q) => ({
+          ...q,
+          type: "multipleChoice",
+        })),
+        ...fetchedTest.fillInTheBlanksQuestions.map((q) => ({
+          ...q,
+          type: "fillInTheBlanks",
+        })),
+        ...fetchedTest.classicQuestions.map((q) => ({
+          ...q,
+          type: "classic",
+        })),
+      ].sort((a, b) => a.questionNumber - b.questionNumber);
+
+      setAllQuestions(combinedQuestions);
+      setTest(fetchedTest);
     } catch (error) {
       console.error("Error fetching test:", error);
     }
@@ -40,26 +59,81 @@ const TestScreen = () => {
     fetchTest();
   }, [id]);
 
-  const handleAnswerSelected = (selectedAnswer: string) => {
-    // Store the selected answer in the answers array
-    setAnswers((prev) => [...prev, { question: index + 1, selectedAnswer }]);
+  const handleAnswerSubmit = (answer) => {
+    const question = allQuestions[index];
+    setAnswers((prev) => [
+      ...prev.filter((a) => a.questionId !== question.id),
+      { questionId: question.id, answer },
+    ]);
+  };
+
+  const submitTest = async () => {
+    try {
+      const response = await axios.post(`${uri}/api/v1/tests/submit`, {
+        testId: id,
+        multipleChoiceAnswers: answers.filter(
+          (a) => typeof a.answer === "string"
+        ),
+        fillInTheBlanksAnswers: answers.filter((a) => Array.isArray(a.answer)),
+        classicAnswers: answers.filter((a) => typeof a.answer === "string"),
+      });
+      console.log("Submit response:", response.data);
+      setShowResults(true);
+    } catch (error) {
+      console.error("Error submitting test:", error);
+    }
   };
 
   const goToNextQuestion = () => {
-    if (index < totalQuestions - 1) {
-      setIndex((prev) => prev + 1);
+    if (index < allQuestions.length - 1) {
+      setIndex(index + 1);
     } else {
-      setShowResults(true); // Show results when the last question is reached
+      submitTest();
     }
   };
 
   const goToPreviousQuestion = () => {
     if (index > 0) {
-      setIndex((prev) => prev - 1);
+      setIndex(index - 1);
     }
   };
 
-  const progressPercentage = Math.floor((index / totalQuestions) * 100); // Calculate progress percentage
+  const progressPercentage = Math.floor((index / allQuestions.length) * 100);
+
+  const renderQuestion = () => {
+    const question = allQuestions[index];
+    if (!question) {
+      return null;
+    }
+    switch (question.type) {
+      case "multipleChoice":
+        return (
+          <MultipleChoiceQuestion
+            question={question}
+            onAnswerSelected={handleAnswerSubmit}
+            answer={answers.find((a) => a.questionId === question.id)?.answer}
+          />
+        );
+      case "fillInTheBlanks":
+        return (
+          <FillInTheBlank
+            question={question}
+            onAnswerSelected={handleAnswerSubmit}
+            answer={answers.find((a) => a.questionId === question.id)?.answer}
+          />
+        );
+      case "classic":
+        return (
+          <ClassicQuestion
+            question={question}
+            onAnswerSelected={handleAnswerSubmit}
+            answer={answers.find((a) => a.questionId === question.id)?.answer}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -76,14 +150,8 @@ const TestScreen = () => {
             />
           </View>
 
-          {/* Multiple Choice Questions */}
-          {test?.multipleChoiceQuestions?.[index] && (
-            <MultipleChoiceQuestion
-              key={index} // Force re-render on question change
-              question={test.multipleChoiceQuestions[index]}
-              onAnswerSelected={handleAnswerSelected}
-            />
-          )}
+          {/* Render the current question */}
+          {renderQuestion()}
 
           {/* Next/Previous Buttons */}
           <View style={styles.buttonContainer}>
@@ -93,7 +161,7 @@ const TestScreen = () => {
 
             <Pressable onPress={goToNextQuestion} style={styles.button}>
               <Text style={styles.buttonText}>
-                {index < totalQuestions - 1 ? "Next" : "Finish"}
+                {index < allQuestions.length - 1 ? "Next" : "Finish"}
               </Text>
             </Pressable>
           </View>
@@ -125,18 +193,20 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   progressBar: {
-    backgroundColor: "#00FF00",
+    backgroundColor: "#eb5a61",
     height: "100%",
   },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     marginTop: 20,
   },
   button: {
-    backgroundColor: "#007BFF",
+    backgroundColor: "#eb5a61",
     padding: 10,
+    width: 100,
     borderRadius: 5,
+    alignItems: "center",
   },
   buttonText: {
     color: "white",

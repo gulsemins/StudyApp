@@ -7,7 +7,7 @@ interface MultipleChoiceQuestionProps {
     correctAnswer: string;
     options: string[];
   };
-  onAnswerSelected: (selectedAnswer: string) => void; // Track the selected answer, not correctness
+  onAnswerSelected: (selectedAnswer: string) => void;
 }
 
 const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
   },
   selectedOption: {
-    backgroundColor: "#d3d3d3", // Change background color for selected option
+    backgroundColor: "#d6d0d0", // Change background color for selected option
   },
 });
 

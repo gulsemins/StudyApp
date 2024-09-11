@@ -7,6 +7,7 @@ interface FillInTheBlankQuestionProps {
     blanks: string[];
     options: string[];
   };
+  onAnswerSelected: (answer: string) => void;
 }
 
 const FillInTheBlankQuestion: React.FC<FillInTheBlankQuestionProps> = ({
