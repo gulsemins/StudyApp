@@ -8,31 +8,27 @@ interface MultipleChoiceQuestionProps {
     options: string[];
   };
   onAnswerSelected: (selectedAnswer: string) => void;
+  answer?: string;
 }
 
 const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
   question,
   onAnswerSelected,
+  answer, // Pass the selected answer for this question from parent
 }) => {
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
-
   const handlePress = (index: number) => {
-    setSelectedOption(index);
-    onAnswerSelected(question.options[index]); // Send selected answer to parent component
+    onAnswerSelected(question.options[index]);
   };
 
   const getOptionStyle = (index: number) => {
-    return selectedOption === index
+    return answer === question.options[index]
       ? [styles.option, styles.selectedOption]
       : styles.option;
   };
 
   return (
     <View style={styles.container}>
-      {/* Question */}
       <Text style={styles.questionText}>{question.questionText}</Text>
-
-      {/* Options */}
       {question.options.map((option, index) => (
         <Pressable
           key={index}

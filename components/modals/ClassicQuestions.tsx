@@ -11,11 +11,13 @@ interface ClassicQuestionProps {
     difficulty: string;
   };
   onAnswerSelected: (answer: string) => void;
+  answer?: string;
 }
 
 const ClassicQuestion: React.FC<ClassicQuestionProps> = ({
   question,
-  onAnswerSelected, // Add this line
+  onAnswerSelected,
+  answer,
 }) => {
   const handleTextChange = (text: string) => {
     onAnswerSelected(text);
@@ -27,7 +29,8 @@ const ClassicQuestion: React.FC<ClassicQuestionProps> = ({
       <TextInput
         style={styles.textInput}
         placeholder="Type your answer here..."
-        onChangeText={handleTextChange} // Add this line to handle text input
+        value={answer || ""} // Ensure the input reflects the current answer
+        onChangeText={handleTextChange}
       />
     </View>
   );

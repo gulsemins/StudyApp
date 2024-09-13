@@ -73,7 +73,7 @@ const TestScreen = () => {
     }
   };
 
-  const handleAnswerSubmit = (answer) => {
+  const handleAnswerSubmit = (answer: any) => {
     const question = allQuestions[index];
     setAnswers((prev) => [
       ...prev.filter((a) => a.questionId !== question.id),
@@ -83,20 +83,20 @@ const TestScreen = () => {
 
   const submitTest = async () => {
     try {
-      const response = await axios.post(`${uri}/api/v1/tests/submit`, {
-        testId: id,
-        studentId: "e1ddca4d-0e30-4f09-83dd-f5e720630c13",
-        multipleChoiceAnswers: answers.filter(
-          (a) => typeof a.answer === "string"
-        ),
-        fillInTheBlanksAnswers: answers.filter((a) => Array.isArray(a.answer)),
-        classicAnswers: answers.filter((a) => typeof a.answer === "string"),
-      });
+      // const response = await axios.post(`${uri}/api/v1/tests/submit`, {
+      //   testId: id,
+      //   studentId: "e1ddca4d-0e30-4f09-83dd-f5e720630c13", //context global state
+      //   multipleChoiceAnswers: answers.filter(
+      //     (a) => typeof a.answer === "string"
+      //   ),
+      //   fillInTheBlanksAnswers: answers.filter((a) => Array.isArray(a.answer)),
+      //   classicAnswers: answers.filter((a) => typeof a.answer === "string"),
+      // });
 
-      console.log("Submit response:", response.data);
+      // console.log("Submit response:", response.data);
       setShowResults(true);
     } catch (error) {
-      console.error("Error submitting test:", error);
+      console.error("Error submitting test:", error.response.data);
     }
   };
 
